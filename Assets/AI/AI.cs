@@ -41,6 +41,7 @@ public class AI : MonoBehaviour
     public GameObject Chasing;
     public GameObject Attacking;
     public GameObject Retreating;
+    public GameObject SpottedText;
     private float Waiting = 0f;
     private float WaitTarget = 0.5f;
 
@@ -61,6 +62,14 @@ public class AI : MonoBehaviour
     }
     private void Update()
     {
+        if(sight.CanSee == true)
+        {
+            SpottedText.SetActive(true);
+        }
+        else
+        {
+            SpottedText.SetActive(false);
+        }
         agent.speed = 3.5f;
         CheckTarget();
         IfStill();

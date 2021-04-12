@@ -65,7 +65,7 @@ public class PlayerMain : MonoBehaviour
         this.gameObject.GetComponent<CharacterController>().enabled = false;
         this.gameObject.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = false;
         lives = lives - 1;
-        enemies.SetActive(false);
+
     }
 
     public void Victory() {
