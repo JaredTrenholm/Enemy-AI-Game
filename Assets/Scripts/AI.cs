@@ -3,18 +3,21 @@ using UnityEngine.AI;
 
 public class AI : MonoBehaviour
 {
-
+    [Header("Patrol")]
     public bool PickRandomPatrol;
     public static int PatrolAmount = 4;
     public Vector3[] PatrolPos = new Vector3[PatrolAmount];
+    [Space]
+    [Header("Materials")]
     public Material Patrolling;
     public Material Searching;
     public Material Chasing;
     public Material Attacking;
     public Material Retreating;
     public Material SpottedText;
+    [Space]
+    [Header("Player and Sight")]
     public GameObject Player;
-    public NavMeshAgent agent;
     public Sight sight;
 
     private enum State
@@ -37,10 +40,12 @@ public class AI : MonoBehaviour
     private float TimeStuck = 0f;
     private float StuckTarget = 5f;
     private float distance;
+    private NavMeshAgent agent;
 
 
     private void Awake()
     {
+        agent = this.gameObject.GetComponent<NavMeshAgent>();
         ChangeState(State.patrolling);
         this.gameObject.GetComponent<MeshRenderer>().enabled = true;
         PreviousPos = gameObject.transform.position;
