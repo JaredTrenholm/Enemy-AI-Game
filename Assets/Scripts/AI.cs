@@ -41,18 +41,10 @@ public class AI : MonoBehaviour
 
     private void Awake()
     {
+        ChangeState(State.patrolling);
         this.gameObject.GetComponent<MeshRenderer>().enabled = true;
         PreviousPos = gameObject.transform.position;
-        if (PickRandomPatrol == true)
-        {
-            System.Random rand = new System.Random();
-            PatrolTarget = rand.Next(0, PatrolAmount);
-            if (PatrolTarget > PatrolAmount - 1)
-            {
-                PatrolTarget = PatrolAmount - 1;
-                agent.SetDestination(PatrolPos[PatrolTarget]);
-            }
-        }
+        ChangePatrolTarget();
     }
     private void Update()
     {
@@ -121,11 +113,7 @@ public class AI : MonoBehaviour
                 if (System.Math.Abs(distance) < 3)
                 {
                     ChangeState(State.patrolling);
-                    PatrolTarget = PatrolTarget + 1;
-                    if (PatrolTarget == PatrolAmount)
-                    {
-                        PatrolTarget = 0;
-                    }
+                    
                 }
                 agent.SetDestination(PatrolPos[PatrolTarget]);
                 break;
@@ -152,6 +140,7 @@ public class AI : MonoBehaviour
                 PatrolTarget = PatrolAmount - 1;
             }
         }
+
     }
 
     private void CheckStateSwitch()
@@ -168,8 +157,6 @@ public class AI : MonoBehaviour
                 {
                     ChangeState(State.chasing);
                 }
-
-
             }
             else
             {
@@ -194,30 +181,30 @@ public class AI : MonoBehaviour
                     {
                     }
                     break;
-                case State.patrolling:
-
-                    break;
                 case State.attacking:
-                    agent.SetDestination(this.gameObject.transform.position);
-                    Player.gameObject.GetComponent<PlayerMain>().Kill();
-
-                    if (((sight.CanSee == false) && (state == State.attacking) && ((Player.transform.position.x < this.gameObject.transform.position.x + 2) && (Player.transform.position.x > this.gameObject.transform.position.x - 2) && (Player.transform.position.y < this.gameObject.transform.position.y + 2) && (Player.transform.position.y > this.gameObject.transform.position.y - 2) && (Player.transform.position.z < this.gameObject.transform.position.z + 2) && (Player.transform.position.z > this.gameObject.transform.position.z - 2))))
-                    {
-                        PlayerLastPos = Player.transform.position;
-                        ChangeState(State.searching);
-                        agent.SetDestination(PlayerLastPos);
-                    }
+                    Attack();
                     break;
                 case State.chasing:
                     agent.SetDestination(PlayerLastPos);
-                    break;
-                case State.retreating:
                     break;
             }
         }
         else
         {
             TimeBeforeSwitching = TimeBeforeSwitching + Time.deltaTime;
+        }
+    }
+
+    private void Attack()
+    {
+        agent.SetDestination(this.gameObject.transform.position);
+        Player.gameObject.GetComponent<PlayerMain>().Kill();
+
+        if (((sight.CanSee == false) && (state == State.attacking) && ((Player.transform.position.x < this.gameObject.transform.position.x + 2) && (Player.transform.position.x > this.gameObject.transform.position.x - 2) && (Player.transform.position.y < this.gameObject.transform.position.y + 2) && (Player.transform.position.y > this.gameObject.transform.position.y - 2) && (Player.transform.position.z < this.gameObject.transform.position.z + 2) && (Player.transform.position.z > this.gameObject.transform.position.z - 2))))
+        {
+            PlayerLastPos = Player.transform.position;
+            ChangeState(State.searching);
+            agent.SetDestination(PlayerLastPos);
         }
     }
 
