@@ -62,14 +62,6 @@ public class AI : MonoBehaviour
     }
     private void Update()
     {
-        if(sight.CanSee == true)
-        {
-            SpottedText.SetActive(true);
-        }
-        else
-        {
-            SpottedText.SetActive(false);
-        }
         agent.speed = 3.5f;
         CheckTarget();
         IfStill();
@@ -92,7 +84,6 @@ public class AI : MonoBehaviour
 
         if (sight.CanSee == true)
         {
-
             PlayerLastPos = Player.gameObject.transform.position;
             ChangeState(State.chasing);
             agent.SetDestination(PlayerLastPos);

@@ -11,6 +11,7 @@ public class Pickup : MonoBehaviour
     private Rigidbody rb;
 
     public Text PickupMessage;
+    public Text DropMessage;
 
     private Transform playerCam = null;
 
@@ -30,6 +31,7 @@ public class Pickup : MonoBehaviour
                 pickedUp = true;
                 rb.useGravity = false;
                 PickupMessage.enabled = false;
+                DropMessage.enabled = true;
             }
         } else if( pickedUp == true)
         {
@@ -38,6 +40,7 @@ public class Pickup : MonoBehaviour
                 this.gameObject.transform.SetParent(null);
                 pickedUp = false;
                 rb.useGravity = true;
+                DropMessage.enabled = false;
             }
         }
         else
@@ -45,6 +48,7 @@ public class Pickup : MonoBehaviour
             if (PickupMessage.enabled == true)
             {
                 PickupMessage.enabled = false;
+                DropMessage.enabled = false;
             }
         }
     }

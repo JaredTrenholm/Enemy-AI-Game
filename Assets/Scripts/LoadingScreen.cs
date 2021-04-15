@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class LoadingScreen : MonoBehaviour
 {
-    private float loadTime = 2f;
+    private float loadTime = 5f;
     private float timeloaded = 0f;
     public Text loadText;
 
