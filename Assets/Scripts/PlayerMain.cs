@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerMain : MonoBehaviour
 {
@@ -25,7 +23,7 @@ public class PlayerMain : MonoBehaviour
     private void Start()
     {
         StartPos = this.gameObject.transform.position;
-        
+
     }
 
 
@@ -36,20 +34,20 @@ public class PlayerMain : MonoBehaviour
             SceneManager.LoadScene(3);
         }
 
-        if(TestKill == true)
+        if (TestKill == true)
         {
             Kill();
             TestKill = false;
         }
-        if(TimerActive == true)
+        if (TimerActive == true)
         {
 
-            if(TimePassed >= TargetTime)
+            if (TimePassed >= TargetTime)
             {
                 Death.enabled = false;
                 SceneManager.LoadScene(2);
 
-                if(lives <= 0) { SceneManager.LoadScene(0); }
+                if (lives <= 0) { SceneManager.LoadScene(0); }
 
             }
             else
@@ -68,7 +66,8 @@ public class PlayerMain : MonoBehaviour
 
     }
 
-    public void Victory() {
+    public void Victory()
+    {
         SceneManager.LoadScene(3);
     }
 }

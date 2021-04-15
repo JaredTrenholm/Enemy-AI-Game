@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LoadingScreen : MonoBehaviour
 {
@@ -17,14 +15,15 @@ public class LoadingScreen : MonoBehaviour
 
     private void Update()
     {
-        if(timeloaded >= loadTime)
+        if (timeloaded >= loadTime)
         {
             loadText.enabled = false;
 
-            
-                SceneManager.LoadScene(2);
-            
-        } else
+
+            SceneManager.LoadScene(2);
+
+        }
+        else
         {
             timeloaded += Time.deltaTime;
         }

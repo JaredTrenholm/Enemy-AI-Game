@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class VictoryTrigger : MonoBehaviour
 {
@@ -8,7 +6,7 @@ public class VictoryTrigger : MonoBehaviour
     public GameObject Cube;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Pickup")
+        if (other.tag == "Pickup")
         {
             if (Cube.GetComponent<Pickup>().pickedUp == false)
             {

@@ -1,13 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
 public class AI : MonoBehaviour
 {
-    enum State
+
+    public bool PickRandomPatrol;
+    public static int PatrolAmount = 4;
+    public Vector3[] PatrolPos = new Vector3[PatrolAmount];
+    public Material Patrolling;
+    public Material Searching;
+    public Material Chasing;
+    public Material Attacking;
+    public Material Retreating;
+    public Material SpottedText;
+    public GameObject Player;
+    public NavMeshAgent agent;
+    public Sight sight;
+
+    private enum State
     {
         patrolling,
         chasing,
@@ -16,38 +26,22 @@ public class AI : MonoBehaviour
         retreating
     }
 
+    private float Waiting = 0f;
+    private float WaitTarget = 0.5f;
     private float TimeBeforeSwitching = 0f;
     private float TimeTarget = 1f;
     private Vector3 PlayerLastPos;
-    public bool PickRandomPatrol;
-    public static int PatrolAmount = 4;
-    public Vector3[] PatrolPos = new Vector3[PatrolAmount];
     private int PatrolTarget = 0;
     private State state;
-
-    private float distance;
-
-    public GameObject Player;
-    public NavMeshAgent agent;
-
-    public Sight sight;
-
     private Vector3 PreviousPos;
     private float TimeStuck = 0f;
     private float StuckTarget = 5f;
-
-    public GameObject Patrolling;
-    public GameObject Searching;
-    public GameObject Chasing;
-    public GameObject Attacking;
-    public GameObject Retreating;
-    public GameObject SpottedText;
-    private float Waiting = 0f;
-    private float WaitTarget = 0.5f;
+    private float distance;
 
 
     private void Awake()
     {
+        this.gameObject.GetComponent<MeshRenderer>().enabled = true;
         PreviousPos = gameObject.transform.position;
         if (PickRandomPatrol == true)
         {
@@ -67,12 +61,7 @@ public class AI : MonoBehaviour
         IfStill();
         MoveToPatrol();
         CheckStateSwitch();
-
         Debug.Log("Target: " + PatrolTarget + "        Enemy Name: " + this.gameObject.name);
-
-
-
-
     }
 
     private void CheckTarget()
@@ -186,7 +175,8 @@ public class AI : MonoBehaviour
             {
                 case State.searching:
                     distance = (this.gameObject.transform.position.x - PlayerLastPos.x) + (this.gameObject.transform.position.z - PlayerLastPos.z);
-                    if (System.Math.Abs(distance) < 3) { 
+                    if (System.Math.Abs(distance) < 3)
+                    {
                         if (Waiting >= WaitTarget)
                         {
                             ChangeState(State.retreating);
@@ -213,16 +203,13 @@ public class AI : MonoBehaviour
                         ChangeState(State.searching);
                         agent.SetDestination(PlayerLastPos);
                     }
-
                     break;
                 case State.chasing:
                     agent.SetDestination(PlayerLastPos);
                     break;
                 case State.retreating:
-
                     break;
             }
-
         }
         else
         {
@@ -236,39 +223,19 @@ public class AI : MonoBehaviour
         switch (state)
         {
             case State.searching:
-                Searching.SetActive(true);
-                Patrolling.SetActive(false);
-                Chasing.SetActive(false);
-                Attacking.SetActive(false);
-                Retreating.SetActive(false);
+                this.gameObject.GetComponent<MeshRenderer>().material = Searching;
                 break;
             case State.patrolling:
-                Searching.SetActive(false);
-                Patrolling.SetActive(true);
-                Chasing.SetActive(false);
-                Attacking.SetActive(false);
-                Retreating.SetActive(false);
+                this.gameObject.GetComponent<MeshRenderer>().material = Patrolling;
                 break;
             case State.attacking:
-                Searching.SetActive(false);
-                Patrolling.SetActive(false);
-                Chasing.SetActive(false);
-                Attacking.SetActive(true);
-                Retreating.SetActive(false);
+                this.gameObject.GetComponent<MeshRenderer>().material = Attacking;
                 break;
             case State.chasing:
-                Searching.SetActive(false);
-                Patrolling.SetActive(false);
-                Chasing.SetActive(true);
-                Attacking.SetActive(false);
-                Retreating.SetActive(false);
+                this.gameObject.GetComponent<MeshRenderer>().material = Chasing;
                 break;
             case State.retreating:
-                Searching.SetActive(false);
-                Patrolling.SetActive(false);
-                Chasing.SetActive(false);
-                Attacking.SetActive(false);
-                Retreating.SetActive(true);
+                this.gameObject.GetComponent<MeshRenderer>().material = Retreating;
                 break;
         }
 

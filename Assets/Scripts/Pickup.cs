@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Pickup : MonoBehaviour
@@ -17,12 +15,12 @@ public class Pickup : MonoBehaviour
 
     private void Awake()
     {
-        rb = this.gameObject.GetComponent<Rigidbody>();   
+        rb = this.gameObject.GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        if((canPickUp == true)&&(pickedUp == false))
+        if ((canPickUp == true) && (pickedUp == false))
         {
             PickupMessage.enabled = true;
             if (Input.GetKeyDown(KeyCode.E))
@@ -33,7 +31,8 @@ public class Pickup : MonoBehaviour
                 PickupMessage.enabled = false;
                 DropMessage.enabled = true;
             }
-        } else if( pickedUp == true)
+        }
+        else if (pickedUp == true)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -54,7 +53,7 @@ public class Pickup : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
             canPickUp = true;
             playerCam = other.gameObject.transform.GetChild(0);

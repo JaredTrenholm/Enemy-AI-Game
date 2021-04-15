@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Sight : MonoBehaviour
 {
@@ -30,7 +28,7 @@ public class Sight : MonoBehaviour
                         x = 1;
                         if ((hit.collider.gameObject == Player) || (hit.collider.gameObject == PlayerCam))
                         {
-                            
+
                             Debug.Log("Player Hit");
                         }
                         else
@@ -40,7 +38,7 @@ public class Sight : MonoBehaviour
                         }
                     }
                 }
-                
+
             }
             else
             {
@@ -48,12 +46,13 @@ public class Sight : MonoBehaviour
                 CanSee = true; // should never trigger but in place in case player was missed but there was no wall
             }
 
-        } else
+        }
+        else
         {
         }
-        
-        
-        
+
+
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -71,10 +70,9 @@ public class Sight : MonoBehaviour
         if (other.tag == "Player")
         {
 
-           InTrigger = false;
+            InTrigger = false;
             CanSee = false;
 
         }
     }
 }
-    
