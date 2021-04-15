@@ -85,6 +85,7 @@ public class AI : MonoBehaviour
         {
             PatrolTarget = PatrolAmount - 1;
         }
+
         if (PreviousPos == this.gameObject.transform.position)
         {
             if (TimeStuck >= StuckTarget)
@@ -106,35 +107,17 @@ public class AI : MonoBehaviour
 
     private void MoveToPatrol()
     {
+        distance = (this.gameObject.transform.position.x - PatrolPos[PatrolTarget].x) + (this.gameObject.transform.position.z - PatrolPos[PatrolTarget].z);
         switch (state)
         {
             case State.patrolling:
-                distance = (this.gameObject.transform.position.x - PatrolPos[PatrolTarget].x) + (this.gameObject.transform.position.z - PatrolPos[PatrolTarget].z);
                 if (System.Math.Abs(distance) < 3)
                 {
-                    if (PickRandomPatrol == false)
-                    {
-                        PatrolTarget = PatrolTarget + 1;
-                        if (PatrolTarget == PatrolAmount)
-                        {
-                            PatrolTarget = 0;
-                            PickRandomPatrol = !PickRandomPatrol;
-                        }
-                    }
-                    else
-                    {
-                        System.Random rand = new System.Random();
-                        PatrolTarget = rand.Next(0, PatrolAmount);
-                        if (PatrolTarget > PatrolAmount - 1)
-                        {
-                            PatrolTarget = PatrolAmount - 1;
-                        }
-                    }
+                    ChangePatrolTarget();
                 }
                 agent.SetDestination(PatrolPos[PatrolTarget]);
                 break;
             case State.retreating:
-                distance = (this.gameObject.transform.position.x - PatrolPos[PatrolTarget].x) + (this.gameObject.transform.position.z - PatrolPos[PatrolTarget].z);
                 if (System.Math.Abs(distance) < 3)
                 {
                     ChangeState(State.patrolling);
@@ -149,11 +132,32 @@ public class AI : MonoBehaviour
         }
     }
 
+    private void ChangePatrolTarget()
+    {
+        if (PickRandomPatrol == false)
+        {
+            PatrolTarget = PatrolTarget + 1;
+            if (PatrolTarget == PatrolAmount)
+            {
+                PatrolTarget = 0;
+                PickRandomPatrol = !PickRandomPatrol;
+            }
+        }
+        else
+        {
+            System.Random rand = new System.Random();
+            PatrolTarget = rand.Next(0, PatrolAmount);
+            if (PatrolTarget > PatrolAmount - 1)
+            {
+                PatrolTarget = PatrolAmount - 1;
+            }
+        }
+    }
+
     private void CheckStateSwitch()
     {
         if (TimeBeforeSwitching >= TimeTarget)
         {
-
             if (sight.CanSee == true)
             {
                 if ((Player.transform.position.x < this.gameObject.transform.position.x + 2) && (Player.transform.position.x > this.gameObject.transform.position.x - 2) && (Player.transform.position.y < this.gameObject.transform.position.y + 2) && (Player.transform.position.y > this.gameObject.transform.position.y - 2) && (Player.transform.position.z < this.gameObject.transform.position.z + 2) && (Player.transform.position.z > this.gameObject.transform.position.z - 2))
